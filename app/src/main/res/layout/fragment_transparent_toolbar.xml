@@ -5,10 +5,11 @@
     android:background="@android:color/white">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:text="floating widget"
         android:textSize="24sp"
+        android:layout_centerHorizontal="true"
         android:textAlignment="center"
         android:gravity="center_vertical"
         android:translationY="-24dp"/>
