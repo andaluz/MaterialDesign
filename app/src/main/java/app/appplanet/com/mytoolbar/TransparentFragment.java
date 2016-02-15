@@ -27,6 +27,9 @@ public class TransparentFragment extends Fragment {
         if (getActivity() instanceof AppCompatActivity) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        OnNavigationDrawerListener listener = (OnNavigationDrawerListener) getActivity();
+        listener.onHandleBackStack();
     }
 
     @Override
