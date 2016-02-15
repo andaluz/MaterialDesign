@@ -32,7 +32,9 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
-                fm.beginTransaction().add(R.id.fl_content, new DetailFragment(), null).commit();
+                fm.beginTransaction().add(R.id.fl_content, new DetailFragment(), null)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
@@ -41,7 +43,9 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
-                fm.beginTransaction().add(R.id.fl_content, new Fragment(), null).commit();
+                fm.beginTransaction().add(R.id.fl_content, new TransparentFragment(), null)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
     }
