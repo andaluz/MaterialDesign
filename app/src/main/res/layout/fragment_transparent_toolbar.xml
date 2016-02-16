@@ -2,7 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@android:color/holo_blue_bright">
+
+    <include
+        android:id="@+id/tb_transparent"
+        layout="@layout/toolbar_transparent" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -11,6 +15,5 @@
         android:textSize="24sp"
         android:layout_centerHorizontal="true"
         android:textAlignment="center"
-        android:gravity="center_vertical"
-        android:translationY="-24dp"/>
+        android:gravity="center_vertical"/>
 </RelativeLayout>
