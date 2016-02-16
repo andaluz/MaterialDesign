@@ -1,8 +1,11 @@
 package app.appplanet.com.mytoolbar;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,20 +27,12 @@ public class TransparentFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if (getActivity() instanceof AppCompatActivity) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
-        OnNavigationDrawerListener listener = (OnNavigationDrawerListener) getActivity();
-        listener.onHandleBackStack();
+        modifyToolbar();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        if (getActivity() instanceof AppCompatActivity) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        }
+    private void modifyToolbar() {
+        //((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#80000000")));
+        //((AppCompatActivity)getActivity()).getSupportActionBar().
     }
+
 }

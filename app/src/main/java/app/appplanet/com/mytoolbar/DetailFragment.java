@@ -3,7 +3,6 @@ package app.appplanet.com.mytoolbar;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,17 +22,5 @@ public class DetailFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if (getActivity() instanceof AppCompatActivity) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        if (getActivity() instanceof AppCompatActivity) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        }
     }
 }
