@@ -10,6 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+import com.nineoldandroids.animation.Animator;
 
 /**
  * First you have to keep in mind that I have a project with multiple fragments
@@ -33,6 +39,10 @@ import android.view.ViewGroup;
  */
 public class TransparentFragment extends Fragment {
 
+    private int counter = 0;
+    private Runnable counterRunnable;
+    TextView tvCounter;
+
     @Nullable
     @Override
     public View  onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +53,13 @@ public class TransparentFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+        Button btn = (Button) getView().findViewById(R.id.btn_animate);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playAnimation();
+            }
+        });
         modifyToolbar();
     }
 
@@ -57,18 +74,79 @@ public class TransparentFragment extends Fragment {
         transparent.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(drawer!=null) {
+                if (drawer != null) {
                     drawer.openDrawer(GravityCompat.START);
                 }
             }
         });
     }
 
+    private void playAnimation() {
+        tvCounter = (TextView) getView().findViewById(R.id.tv_animation);
+        YoYo.with(Techniques.BounceIn)
+                .withListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        TextView tv2 = (TextView) getView().findViewById(R.id.tv_anim2);
+                        YoYo.with(Techniques.BounceIn)
+                                .duration(1000)
+                                .playOn(tv2);
+
+                        counterRunnable = getTextViewRunnable(1000);
+                        tvCounter.postDelayed(counterRunnable, 1000);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                })
+                .duration(1000)
+                .playOn(tvCounter);
+    }
+
+    private Runnable getTextViewRunnable(final int time) {
+        return new Runnable() {
+            @Override
+            public void run() {
+                if(tvCounter!=null) {
+                    tvCounter.setText(String.format("Count %d", counter++));
+                    counterRunnable = getTextViewRunnable(time);
+                    tvCounter.postDelayed(counterRunnable, time);
+                }
+            }
+        };
+    }
+
     @Override
     public void onStop() {
         super.onStop();
 
-        Toolbar toolbar = (Toolbar)((AppCompatActivity) getActivity()).findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) ((AppCompatActivity) getActivity()).findViewById(R.id.toolbar);
         toolbar.setVisibility(View.VISIBLE);
+
+        //cleanUpResources();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        cleanUpResources();
+    }
+
+    private void cleanUpResources() {
+        if (counterRunnable != null)
+            tvCounter.removeCallbacks(counterRunnable);
     }
 }

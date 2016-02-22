@@ -1,6 +1,8 @@
 package app.appplanet.com.mytoolbar;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -147,5 +149,14 @@ public class MainActivity extends AppCompatActivity
     public void onHandleBackStack() {
         //drawerToggle.setDrawerIndicatorEnabled(false);
         //getSupportActionBar().setHomeButtonEnabled(true);
+    }
+
+    private void initializeSetting() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        String settingCity = sharedPref.getString("CITY_NAME", "");
+
+        if(settingCity.isEmpty()) {
+            // request user to select a city
+        }
     }
 }
