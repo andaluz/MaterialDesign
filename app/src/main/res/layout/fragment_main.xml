@@ -17,4 +17,11 @@
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:text="Transparent AppBar"/>
+
+    <Button
+        android:id="@+id/button_compass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="Compass"/>
 </LinearLayout>

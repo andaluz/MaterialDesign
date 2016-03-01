@@ -7,6 +7,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,9 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.nineoldandroids.animation.Animator;
+
+import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
 
 /**
  * First you have to keep in mind that I have a project with multiple fragments
@@ -38,6 +42,7 @@ import com.nineoldandroids.animation.Animator;
  * welcome to share it with me.
  */
 public class TransparentFragment extends Fragment {
+    private final static String TAG = "TransparentFragment";
 
     private int counter = 0;
     private Runnable counterRunnable;
@@ -61,6 +66,14 @@ public class TransparentFragment extends Fragment {
             }
         });
         modifyToolbar();
+
+        Button yoda = (Button) getView().findViewById(R.id.btn_yoda);
+        yoda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playDate();
+            }
+        });
     }
 
     private void modifyToolbar() {
@@ -148,5 +161,13 @@ public class TransparentFragment extends Fragment {
     private void cleanUpResources() {
         if (counterRunnable != null)
             tvCounter.removeCallbacks(counterRunnable);
+    }
+
+    private void playDate() {
+        DateTime now = new DateTime();
+
+        Log.d(TAG, "getYear: "+now.getYear());
+        Log.d(TAG, "getYearOfCentury: "+now.getYearOfCentury());
+        Log.d(TAG, "getYearOfEra: "+now.getYearOfEra());
     }
 }
