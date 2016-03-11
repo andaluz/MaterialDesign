@@ -24,4 +24,11 @@
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:text="Compass"/>
+
+    <Button
+        android:id="@+id/button_statusbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="Statusbar"/>
 </LinearLayout>
