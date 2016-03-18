@@ -35,13 +35,18 @@ public class CompassFragment extends Fragment implements SensorEventListener {
 
     private float currentDegree = 0f;
 
-    float[] mGravity;
-    float[] mGeomagnetic;
+    float[] mGravity = new float[3];
+    float[] mGeomagnetic = new float[3];
 
     private LocationManager mLocManager;
     private LocationListener mLocListener;
     public final static int PERMISSION_REQUEST_FINE_LOCATION = 100;
     public final static int PERMISSION_REQUEST_COURSE_LOCATION = 101;
+
+    //////////////////////////////////////
+    static final float ALPHA = 0.4f;
+    //////////////////////////////////////
+    static final long ANIM_DURATION = 20;
 
     // link: http://www.techrepublic.com/article/pro-tip-create-your-own-magnetic-compass-using-androids-internal-sensors/
     private Sensor mAccelerometer;
@@ -143,10 +148,20 @@ public class CompassFragment extends Fragment implements SensorEventListener {
     private void newVersionNotWorking(SensorEvent event) {
         float degree = 0f;
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            mGravity = event.values;
+            //mGravity = event.values;
             Log.d(TAG, "ACCELARATOR: ["+event.values[0]+"]["+event.values[1]+"]");
+
+            float[] accelVals = lowPass(event.values.clone(), mGravity);
+            mGravity[0] = accelVals[0];
+            mGravity[1] = accelVals[1];
+            mGravity[2] = accelVals[2];
         } if ((event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)||(event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED)) {
-            mGeomagnetic = event.values;
+            //mGeomagnetic = event.values;
+
+            float[] magVals = lowPass(event.values.clone(), mGeomagnetic);
+            mGeomagnetic[0] = magVals[0];
+            mGeomagnetic[1] = magVals[1];
+            mGeomagnetic[2] = magVals[2];
             Log.d(TAG, "MAGNETIC: ["+event.values[0]+"]["+event.values[1]+"]");
         } if (mGravity != null && mGeomagnetic != null) {
             float R[] = new float[9];
@@ -169,7 +184,7 @@ public class CompassFragment extends Fragment implements SensorEventListener {
                         Animation.RELATIVE_TO_SELF, 0.5f);
 
                 // how long the animation will take place
-                ra.setDuration(100);
+                ra.setDuration(ANIM_DURATION);
 
                 // set the animation after the end of the reservation status
                 ra.setFillAfter(true);
@@ -231,5 +246,18 @@ public class CompassFragment extends Fragment implements SensorEventListener {
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSION_REQUEST_FINE_LOCATION);
         }
+    }
+
+    /**
+     * @see //http://en.wikipedia.org/wiki/Low-pass_filter#Algorithmic_implementation
+     * @see //http://developer.android.com/reference/android/hardware/SensorEvent.html#values
+     */
+    protected float[] lowPass( float[] input, float[] output ) {
+        if ( output == null ) return input;
+
+        for ( int i=0; i<input.length; i++ ) {
+            output[i] = output[i] + ALPHA * (input[i] - output[i]);
+        }
+        return output;
     }
 }

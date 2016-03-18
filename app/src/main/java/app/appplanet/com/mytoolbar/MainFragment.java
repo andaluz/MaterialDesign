@@ -60,11 +60,11 @@ public class MainFragment extends Fragment {
         });
 
         Button statusbar = (Button) getView().findViewById(R.id.button_statusbar);
-        compass.setOnClickListener(new View.OnClickListener() {
+        statusbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
-                fm.beginTransaction().add(R.id.fl_content, new CompassFragment(), null)
+                fm.beginTransaction().add(R.id.fl_content, new StatusBarFragment(), null)
                         .addToBackStack(null)
                         .commit();
             }
