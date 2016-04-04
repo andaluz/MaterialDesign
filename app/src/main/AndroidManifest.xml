@@ -19,11 +19,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Alarm Broadcast -->
+        <receiver android:name=".AlarmReceiver">
+
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED">
+                </action>
+            </intent-filter>
+
+        </receiver>
     </application>
 
     <!-- QiblaCompass -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <!-- User Location -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
 
 </manifest>
