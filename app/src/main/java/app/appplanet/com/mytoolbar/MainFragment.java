@@ -14,6 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
+import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
+
 import java.util.Calendar;
 
 /**
@@ -94,9 +99,14 @@ public class MainFragment extends Fragment {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.SECOND, 10);
 
+        JodaTimeAndroid.init(getActivity());
+
+        DateTime now = LocalTime.now().toDateTimeToday();
+        DateTime alarm = now.plusSeconds(10);
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent); //now+10 sec.
+        alarmManager.set(AlarmManager.RTC_WAKEUP, /*cal.getTimeInMillis()*/alarm.getMillis(), pendingIntent); //now+10 sec.
     }
 
     private void buildNotification() {

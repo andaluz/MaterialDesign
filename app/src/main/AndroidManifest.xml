@@ -23,11 +23,6 @@
         <!-- Alarm Broadcast -->
         <receiver android:name=".AlarmReceiver">
 
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED">
-                </action>
-            </intent-filter>
-
         </receiver>
     </application>
 

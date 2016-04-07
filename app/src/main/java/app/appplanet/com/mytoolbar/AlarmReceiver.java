@@ -25,7 +25,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle("My notification")
                         .setContentText("Hello World!")
-                        .setVibrate(new long[]{500, 500, 500, 500, 500, 500});
+                        .setVibrate(new long[]{500, 500, 500, 500});
 
         // Sets an ID for the notification
         int mNotificationId = 001;
