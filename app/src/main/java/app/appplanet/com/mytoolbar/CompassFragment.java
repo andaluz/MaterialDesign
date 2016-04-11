@@ -109,7 +109,7 @@ public class CompassFragment extends Fragment implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        Log.d(TAG, "Receiving sensor event!");
+        //Log.d(TAG, "Receiving sensor event!");
         //oldVersion(event);
         newVersionNotWorking(event);
         //newVersionWorking(event);
