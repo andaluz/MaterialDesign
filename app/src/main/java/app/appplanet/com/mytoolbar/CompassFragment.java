@@ -44,9 +44,9 @@ public class CompassFragment extends Fragment implements SensorEventListener {
     public final static int PERMISSION_REQUEST_COURSE_LOCATION = 101;
 
     //////////////////////////////////////
-    static final float ALPHA = 0.4f;
+    static final float ALPHA = 0.2f;
     //////////////////////////////////////
-    static final long ANIM_DURATION = 20;
+    static final long ANIM_DURATION = 100;
 
     // link: http://www.techrepublic.com/article/pro-tip-create-your-own-magnetic-compass-using-androids-internal-sensors/
     private Sensor mAccelerometer;
@@ -77,7 +77,7 @@ public class CompassFragment extends Fragment implements SensorEventListener {
         }
 
         imgCompass = (ImageView) getView().findViewById(R.id.iv_compass);
-        tvHeading = (TextView) getView().findViewById(R.id.tv_log);
+        //tvHeading = (TextView) getView().findViewById(R.id.tv_log);
 
         //initLocation();
     }
@@ -149,7 +149,7 @@ public class CompassFragment extends Fragment implements SensorEventListener {
         float degree = 0f;
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             //mGravity = event.values;
-            Log.d(TAG, "ACCELARATOR: ["+event.values[0]+"]["+event.values[1]+"]");
+            //Log.d(TAG, "ACCELARATOR: ["+event.values[0]+"]["+event.values[1]+"]");
 
             float[] accelVals = lowPass(event.values.clone(), mGravity);
             mGravity[0] = accelVals[0];
@@ -162,7 +162,7 @@ public class CompassFragment extends Fragment implements SensorEventListener {
             mGeomagnetic[0] = magVals[0];
             mGeomagnetic[1] = magVals[1];
             mGeomagnetic[2] = magVals[2];
-            Log.d(TAG, "MAGNETIC: ["+event.values[0]+"]["+event.values[1]+"]");
+            //Log.d(TAG, "MAGNETIC: ["+event.values[0]+"]["+event.values[1]+"]");
         } if (mGravity != null && mGeomagnetic != null) {
             float R[] = new float[9];
             float I[] = new float[9];
@@ -176,25 +176,28 @@ public class CompassFragment extends Fragment implements SensorEventListener {
                 float bearingOld = currentDegree;
                 float bearingNew = degree;//-getDirectionToMecca(null);
 
-                // create a rotation animation (reverse turn degree degrees)
-                RotateAnimation ra = new RotateAnimation(
+                if(Math.abs(bearingNew-bearingOld)>1) {
+
+                    // create a rotation animation (reverse turn degree degrees)
+                    RotateAnimation ra = new RotateAnimation(
                         /*currentDegree*/bearingOld,
                         /*-degree*/-bearingNew,
-                        Animation.RELATIVE_TO_SELF, 0.5f,
-                        Animation.RELATIVE_TO_SELF, 0.5f);
+                            Animation.RELATIVE_TO_SELF, 0.5f,
+                            Animation.RELATIVE_TO_SELF, 0.5f);
 
-                // how long the animation will take place
-                ra.setDuration(ANIM_DURATION);
+                    // how long the animation will take place
+                    ra.setDuration(ANIM_DURATION);
 
-                // set the animation after the end of the reservation status
-                ra.setFillAfter(true);
+                    // set the animation after the end of the reservation status
+                    ra.setFillAfter(true);
 
-                tvHeading.setText("Heading: " + Float.toString(degree) + " degrees");
-                //Log.d(TAG, "Heading: " + Float.toString(degree) + " degrees");
+                    //tvHeading.setText("Heading: " + Float.toString(degree) + " degrees");
+                    //Log.d(TAG, "Heading: " + Float.toString(degree) + " degrees");
 
-                // Start the animation
-                imgCompass.startAnimation(ra);
-                currentDegree = /*-degree*/-bearingNew;
+                    // Start the animation
+                    imgCompass.startAnimation(ra);
+                    currentDegree = /*-degree*/-bearingNew;
+                }
             }
         }
     }
