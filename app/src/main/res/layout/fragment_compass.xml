@@ -18,9 +18,16 @@
 
     <ImageView
         android:id="@+id/iv_compass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="360dp"
+        android:layout_height="360dp"
         android:layout_centerInParent="true"
-        android:background="@drawable/compass_graphic"/>
+        android:background="@drawable/qibla_compass_resized"/>
+
+    <ImageView
+        android:id="@+id/iv_needle"
+        android:layout_width="360dp"
+        android:layout_height="360dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/qibla_needle_resized"/>
 
 </RelativeLayout>

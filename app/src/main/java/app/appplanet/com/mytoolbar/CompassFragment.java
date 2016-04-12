@@ -23,6 +23,8 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.joda.time.LocalDateTime;
+
 /**
  * Created by digivox on 01/03/16.
  */
@@ -40,6 +42,7 @@ public class CompassFragment extends Fragment implements SensorEventListener {
 
     private LocationManager mLocManager;
     private LocationListener mLocListener;
+    private Location mCurrentLocation;
     public final static int PERMISSION_REQUEST_FINE_LOCATION = 100;
     public final static int PERMISSION_REQUEST_COURSE_LOCATION = 101;
 
@@ -79,7 +82,7 @@ public class CompassFragment extends Fragment implements SensorEventListener {
         imgCompass = (ImageView) getView().findViewById(R.id.iv_compass);
         //tvHeading = (TextView) getView().findViewById(R.id.tv_log);
 
-        //initLocation();
+        initLocation();
     }
 
     @Override
@@ -155,7 +158,8 @@ public class CompassFragment extends Fragment implements SensorEventListener {
             mGravity[0] = accelVals[0];
             mGravity[1] = accelVals[1];
             mGravity[2] = accelVals[2];
-        } if ((event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)||(event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED)) {
+        }
+        if ((event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) || (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED)) {
             //mGeomagnetic = event.values;
 
             float[] magVals = lowPass(event.values.clone(), mGeomagnetic);
@@ -163,7 +167,8 @@ public class CompassFragment extends Fragment implements SensorEventListener {
             mGeomagnetic[1] = magVals[1];
             mGeomagnetic[2] = magVals[2];
             //Log.d(TAG, "MAGNETIC: ["+event.values[0]+"]["+event.values[1]+"]");
-        } if (mGravity != null && mGeomagnetic != null) {
+        }
+        if (mGravity != null && mGeomagnetic != null) {
             float R[] = new float[9];
             float I[] = new float[9];
             boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
@@ -176,7 +181,7 @@ public class CompassFragment extends Fragment implements SensorEventListener {
                 float bearingOld = currentDegree;
                 float bearingNew = degree;//-getDirectionToMecca(null);
 
-                if(Math.abs(bearingNew-bearingOld)>1) {
+                if (Math.abs(bearingNew - bearingOld) > 1) {
 
                     // create a rotation animation (reverse turn degree degrees)
                     RotateAnimation ra = new RotateAnimation(
@@ -208,6 +213,13 @@ public class CompassFragment extends Fragment implements SensorEventListener {
             @Override
             public void onLocationChanged(Location location) {
                 /*getDirectionToMecca(location);*/
+                //Location loc = getLastKnownLocation();
+                mCurrentLocation = location;
+                if(location!=null) {
+                    Log.d(TAG, "Location - Lat: "+location.getLatitude()+"   Lon: "+location.getLongitude());
+                } else {
+                    Log.d(TAG, "Couldn't get Location object.");
+                }
             }
 
             @Override
@@ -255,12 +267,30 @@ public class CompassFragment extends Fragment implements SensorEventListener {
      * @see //http://en.wikipedia.org/wiki/Low-pass_filter#Algorithmic_implementation
      * @see //http://developer.android.com/reference/android/hardware/SensorEvent.html#values
      */
-    protected float[] lowPass( float[] input, float[] output ) {
-        if ( output == null ) return input;
+    protected float[] lowPass(float[] input, float[] output) {
+        if (output == null) return input;
 
-        for ( int i=0; i<input.length; i++ ) {
+        for (int i = 0; i < input.length; i++) {
             output[i] = output[i] + ALPHA * (input[i] - output[i]);
         }
         return output;
     }
+
+    private Location getLastKnownLocation() {
+        Location location = null;
+        LocationManager mgr = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        boolean network_enabled = mgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        if (network_enabled) {
+            if (ActivityCompat.checkSelfPermission(getActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(getActivity(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                location = mgr.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            }
+        }
+
+        return location;
+    }
+
 }
