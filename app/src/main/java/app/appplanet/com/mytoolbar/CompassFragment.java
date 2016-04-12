@@ -44,9 +44,9 @@ public class CompassFragment extends Fragment implements SensorEventListener {
     public final static int PERMISSION_REQUEST_COURSE_LOCATION = 101;
 
     //////////////////////////////////////
-    static final float ALPHA = 0.2f;
+    static final float ALPHA = 0.24f;
     //////////////////////////////////////
-    static final long ANIM_DURATION = 100;
+    static final long ANIM_DURATION = 120;
 
     // link: http://www.techrepublic.com/article/pro-tip-create-your-own-magnetic-compass-using-androids-internal-sensors/
     private Sensor mAccelerometer;
