@@ -1,9 +1,11 @@
 package app.appplanet.com.mytoolbar;
 
+import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -26,6 +28,7 @@ import android.widget.TextView;
 public class StatusBarFragment extends Fragment {
     private final String TAG = "StatusBarFragment";
 
+    private AlertDialog mAlert;
 
     @Nullable
     @Override
@@ -45,13 +48,40 @@ public class StatusBarFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 
-                Toolbar toolbar = (Toolbar)((AppCompatActivity) getActivity()).findViewById(R.id.toolbar);
+                Toolbar toolbar = (Toolbar) ((AppCompatActivity) getActivity()).findViewById(R.id.toolbar);
                 toolbar.setVisibility(View.GONE);
+            }
+        });
+
+
+
+        TextView tv = (TextView) getView().findViewById(R.id.tv_list);
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogList();
             }
         });
     }
 
+    private void showDialogList() {
+        final CharSequence[] items = {
+                "Rajesh", "Mahesh", "Vijayakumar"
+        };
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Make your selection");
+        builder.setSingleChoiceItems(items, 1, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                TextView tv = (TextView) getView().findViewById(R.id.tv_list);
+                tv.setText(items[item]);
+
+                dialog.dismiss();
+            }
+        });
+        mAlert = builder.create();
+        mAlert.show();
+    }
 }

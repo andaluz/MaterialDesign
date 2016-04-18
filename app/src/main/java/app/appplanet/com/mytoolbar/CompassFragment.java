@@ -39,6 +39,7 @@ public class CompassFragment extends Fragment implements SensorEventListener {
 
     float[] mGravity = new float[3];
     float[] mGeomagnetic = new float[3];
+    float[] mRotation = new float[16];
 
     private LocationManager mLocManager;
     private LocationListener mLocListener;
@@ -89,13 +90,15 @@ public class CompassFragment extends Fragment implements SensorEventListener {
     public void onResume() {
         super.onResume();
 
-        Sensor accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        Sensor magnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        //Sensor accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        //Sensor magnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        Sensor vector = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
 
         // for the system's orientation sensor registered listeners
         //mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+        //mSensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        //mSensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, vector, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -204,6 +207,18 @@ public class CompassFragment extends Fragment implements SensorEventListener {
                     currentDegree = /*-degree*/-bearingNew;
                 }
             }
+        }
+    }
+
+    //Rotation event
+    private void processRotation(SensorEvent event) {
+        if(event.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
+            float[] roationV = new float[16];
+            SensorManager.getRotationMatrixFromVector(roationV, mRotation);
+
+            float[] orientationValuesV = new float[3];
+            SensorManager.getOrientation(roationV, orientationValuesV);
+
         }
     }
 

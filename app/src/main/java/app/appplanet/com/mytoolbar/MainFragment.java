@@ -64,7 +64,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
-                fm.beginTransaction().add(R.id.fl_content, new CompassFragment(), null)
+                fm.beginTransaction().add(R.id.fl_content, new CompassV2Fragment(), null)
                         .addToBackStack(null)
                         .commit();
             }

@@ -9,4 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Press but don't stress!"/>
+
+    <TextView
+        android:id="@+id/tv_list"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/btn_press"
+        android:layout_marginTop="20dp"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:text="Show list..."/>
 </RelativeLayout>
