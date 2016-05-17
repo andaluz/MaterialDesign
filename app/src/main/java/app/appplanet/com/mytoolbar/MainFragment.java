@@ -88,6 +88,17 @@ public class MainFragment extends Fragment {
                 setupAlarmNotification();
             }
         });
+
+        Button fling = (Button) getView().findViewById(R.id.button_fling);
+        fling.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
+                fm.beginTransaction().add(R.id.fl_content, new FlingsFragment(), null)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
     }
 
     private void setupAlarmNotification() {
