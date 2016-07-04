@@ -1,6 +1,8 @@
 package app.appplanet.com.mytoolbar;
 
+import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -20,12 +22,22 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Intent contentIntent = new Intent();
+        contentIntent.setClass(context, MainActivity.class);
+        contentIntent.setFlags(PendingIntent.FLAG_UPDATE_CURRENT
+                | PendingIntent.FLAG_ONE_SHOT);
+
+        PendingIntent pending = PendingIntent.getActivity(context, 0,
+                contentIntent, 0);
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle("My notification")
                         .setContentText("Hello World!")
-                        .setVibrate(new long[]{500, 500, 500, 500});
+                        .setContentIntent(pending);
+                        //.setVibrate(new long[]{500, 500, 500, 500});
+        mBuilder.mNotification.flags |= Notification.FLAG_AUTO_CANCEL;
 
         // Sets an ID for the notification
         int mNotificationId = 001;

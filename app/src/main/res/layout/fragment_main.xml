@@ -46,4 +46,11 @@
         android:textSize="24sp"
         android:text="Fling Fling"/>
 
+    <Button
+        android:id="@+id/button_loader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="AsyncLoader"/>
+
 </LinearLayout>
