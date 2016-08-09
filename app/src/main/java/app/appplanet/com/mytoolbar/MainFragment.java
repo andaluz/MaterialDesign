@@ -110,6 +110,39 @@ public class MainFragment extends Fragment {
                         .commit();
             }
         });
+
+        Button bgw = (Button) getView().findViewById(R.id.button_bgw);
+        bgw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
+                fm.beginTransaction().add(R.id.fl_content, new BgwFragment(), null)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        Button oauth = (Button) getView().findViewById(R.id.button_oauth);
+        oauth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
+                fm.beginTransaction().add(R.id.fl_content, new LoaderFragment(), null)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        Button anim = (Button) getView().findViewById(R.id.button_anim);
+        anim.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
+                fm.beginTransaction().add(R.id.fl_content, new LoaderFragment(), null)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
     }
 
     private void setupAlarmNotification() {

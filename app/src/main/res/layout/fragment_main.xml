@@ -53,4 +53,25 @@
         android:textSize="24sp"
         android:text="AsyncLoader"/>
 
+    <Button
+        android:id="@+id/button_bgw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="Background worker"/>
+
+    <Button
+        android:id="@+id/button_oauth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="OAuth Login"/>
+
+    <Button
+        android:id="@+id/button_anim"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="Advanced animation"/>
+
 </LinearLayout>
